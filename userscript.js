@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Autoplay Audio For AnkiWeb
 // @namespace    popyoung
-// @version      0.1
+// @version      1.00
 // @description  A js almost written by ChatGPT
 // @author       popyoung
 // @match        https://ankiuser.net/study/
@@ -9,28 +9,29 @@
 // @license MIT
 // ==/UserScript==
 
-(function() {
+
+
+
+(function () {
     'use strict';
 
     //Thanks to ChatGPT
-    var checkBtn = setInterval(function() {
-        //wait for loading
-        var btn = document.getElementsByClassName("btn btn-secondary");
-        if (btn.length > 0) {
-            clearInterval(checkBtn);
-            var audioElements = document.getElementsByTagName("audio");
-            var currentAudio = 0;
-            function playNextAudio() {
-                if (currentAudio < audioElements.length) {
+    var checkBtn = setInterval(function () {
+        var audioElements = document.getElementsByTagName("audio");
+        var currentAudio = 0;
+        var playNextAudio = function () {
+            if (currentAudio < audioElements.length) {
+                if (!audioElements[currentAudio].className.includes("played")) {
                     audioElements[currentAudio].play();
-                    audioElements[currentAudio].addEventListener("ended", function() {
+                    audioElements[currentAudio].className += " played";
+                    audioElements[currentAudio].addEventListener("ended", function () {
                         currentAudio++;
                         playNextAudio();
                     });
                 }
             }
-            playNextAudio();
         }
-    }, 100);
-
+        playNextAudio();
+    }, 200);
 })();
+
